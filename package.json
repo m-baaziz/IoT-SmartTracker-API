@@ -1,0 +1,27 @@
+{
+  "name": "IoT-Localisation-backend",
+  "version": "0.1.0",
+  "description": "Backend side of an IoT project to track a stolen item",
+  "main": "server.js",
+  "scripts": {
+    "start": "babel-node server.js"
+  },
+  "dependencies": {
+    "express": "^4.14.0",
+    "morgan": "^1.7.0"
+  },
+  "engines": {
+    "node": "5.6.0"
+  },
+  "repository": {},
+  "keywords": [
+    "node"
+  ],
+  "author": "Baaziz Mohamed",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.5.1",
+    "babel-core": "^6.5.2",
+    "babel-preset-es2015": "^6.5.0"
+  }
+}
