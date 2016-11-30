@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 
-import Device from 'device'
+import Device from './device'
 
 const userSchema = new Schema({
 	name: String,

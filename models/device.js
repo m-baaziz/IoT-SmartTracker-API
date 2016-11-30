@@ -6,8 +6,7 @@ import User from './user'
 const deviceSchema = new Schema({
 	mac: String,
 	ipv4: String,
-	locations: [Location],
-	owner: User
+	locations: [Location]
 }, {
 	timestamps: true
 });

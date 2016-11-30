@@ -1,5 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
+import Device from './device'
+
 const locationSchema = new Schema({
 	collectedAt: { type: Date, default : Date.now},
 	latitude: Number,
