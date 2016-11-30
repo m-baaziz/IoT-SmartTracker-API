@@ -4,10 +4,12 @@
   "description": "Backend side of an IoT project to track a stolen item",
   "main": "server.js",
   "scripts": {
-    "start": "babel-node server.js"
+    "start": "nodemon --exec babel-node -- server.js"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "mongoose": "^4.7.0",
     "morgan": "^1.7.0"
   },
   "engines": {
