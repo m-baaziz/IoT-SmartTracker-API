@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
 const locationSchema = new Schema({
-	collectedAt: Date,
+	collectedAt: { type: Date, default : Date.now},
 	latitude: Number,
 	longitude: Number,
 	accuracy: Number
