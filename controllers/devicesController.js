@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import express from 'express'
+import mongoose from 'mongoose'
 
 import Device from '../models/device'
 import User from '../models/user'
@@ -11,10 +12,21 @@ const devicesRouter = express.Router();
 devicesRouter.get('/devices', (req, res) => {
 	Device.find((error, devices) => {
 		if (error) res.send(error);
-
 		res.json({ devices });
 	})
 })
+	.get('/device/:id', (req, res) => {
+		Device.findById(mongoose.Types.ObjectId(req.params.id), (error, device) => {
+			if (error) res.send(error);
+			res.json({ device });
+		});
+	})
+	.get('/device/:id/locations', (req, res) => {
+		Device.findById(mongoose.Types.ObjectId(req.params.id), (error, device) => {
+			if (error) res.send(error);
+			res.json({ locations: _.sortBy(device.locations, [(o) => {return o.collectedAt}, (o) => {return o.createdAt}]) });
+		});
+	})
 
 // POST 
 

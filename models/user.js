@@ -4,7 +4,7 @@ import Device from './device'
 
 const userSchema = new Schema({
 	name: String,
-	devices: [Device]
+	devices: [{ type: Schema.Types.ObjectId, ref: 'Device'}]
 }, {
 	timestamps: true
 });

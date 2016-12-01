@@ -9,10 +9,10 @@ const locationsRouter = express.Router();
 // GET
 
 locationsRouter.get('/locations', (req, res) => {
-	Location.find((error, locations) => {
+	Device.find((error, devices) => {
 		if (error) res.send(error);
 
-		res.json({ locations });
+		res.json({ locations: _.map(devices, "locations")});
 	})
 })
 
@@ -31,6 +31,7 @@ locationsRouter.post('/location', (req, res) => {
 		device.locations.push(location);
 		device.save(error => {  // add cascade update on user
 			if (error) res.send(error);
+			res.json({ message: `Location successfully added to device ${device._id}`, location });
 		})
 	}
 
@@ -41,12 +42,6 @@ locationsRouter.post('/location', (req, res) => {
 			Device.findOne({ipv4: deviceIpv4}, deviceCallback);
 		}
 	}
-
-	location.save(error => {
-		if (error) res.send(error);
-
-		res.json({ message: "Location successfully added", location });
-	});
 })
 
 module.exports = locationsRouter;
