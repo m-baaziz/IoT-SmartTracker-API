@@ -29,7 +29,7 @@ locationsRouter.post('/location', (req, res) => {
 	const deviceCallback = (error, device) => {
 		if (error) res.send(error);
 		device.locations.push(location);
-		device.save(error => {
+		device.save(error => {  // add cascade update on user
 			if (error) res.send(error);
 		})
 	}
