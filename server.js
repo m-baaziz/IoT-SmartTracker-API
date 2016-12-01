@@ -10,19 +10,31 @@ import usersController from './controllers/usersController'
 const app = express();
 const router = express.Router();
 
+mongoose.connect('mongodb://localhost:27017/smarttracker');
+
 app.use(bodyParser.urlencoded({
 		extended: true
 	}))
 	.use(morgan('combined'))
 	.use('/api', router);
 
-router.route('users')
+
+
+router.route('/users')
 	.get(usersController.get)
 	.post(usersController.post)
 
-	// continuer avec reste ...
+router.route('/devices')
+	.get(devicesController.get)
+	.post(devicesController.post)
+router.route('/devices/:id')
+	.get(devicesController.getById)
+router.route('/devices/:id/locations')
+	.get(devicesController.getLocations)
 
-mongoose.connect('mongodb://localhost:27017/smarttracker');
+router.route('/locations')
+	.get(locationsController.get)
+	.post(locationsController.post)
 	
 
 app.listen(8080);

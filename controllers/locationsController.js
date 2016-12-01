@@ -1,24 +1,17 @@
 import _ from 'lodash'
-import express from 'express'
 
 import Location from '../models/location'
 import Device from '../models/device'
 
-const locationsRouter = express.Router();
-
-// GET
-
-locationsRouter.get('/locations', (req, res) => {
+const get = (req, res) => {
 	Device.find((error, devices) => {
 		if (error) res.send(error);
 
 		res.json({ locations: _.map(devices, "locations")});
 	})
-})
+}
 
-// POST 
-
-locationsRouter.post('/location', (req, res) => {
+const post = (req, res) => {
 	const { deviceMac, deviceIpv4, collectedAt, latitude, longitude, accuracy } = req.body;
 	const location = new Location();
 	location.collectedAt = collectedAt;
@@ -42,6 +35,6 @@ locationsRouter.post('/location', (req, res) => {
 			Device.findOne({ipv4: deviceIpv4}, deviceCallback);
 		}
 	}
-})
+}
 
-module.exports = locationsRouter;
+module.exports = { get, post };

@@ -6,7 +6,8 @@ import User from './user'
 const deviceSchema = new Schema({
 	mac: String,
 	ipv4: String,
-	locations: [Location]
+	locations: [Location],
+	user: { type: Schema.Types.ObjectId, ref: 'User'}
 }, {
 	timestamps: true
 });
