@@ -7,17 +7,17 @@ const usersRouter = express.Router();
 
 // GET
 
-usersRouter.get('/users', (req, res) => {
+const get = (req, res) => {
 	User.find((error, users) => {
 		if (error) res.send(error);
 
 		res.json({ users });
 	})
-})
+}
 
 // POST 
 
-usersRouter.post('/user', (req, res) => {
+const post =  (req, res) => {
 	const { name } = req.body;
 	const user = new User();
 	user.name = name;
@@ -27,6 +27,6 @@ usersRouter.post('/user', (req, res) => {
 
 		res.json({ message: "User successfully added", user });
 	});
-})
+}
 
-module.exports = usersRouter;
+module.exports = { get, post };
