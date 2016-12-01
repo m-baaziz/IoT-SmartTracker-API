@@ -1,6 +1,8 @@
+import _ from 'lodash'
 import express from 'express'
 
 import Location from '../models/location'
+import Device from '../models/device'
 
 const locationsRouter = express.Router();
 
@@ -17,15 +19,28 @@ locationsRouter.get('/locations', (req, res) => {
 // POST 
 
 locationsRouter.post('/location', (req, res) => {
-	const { collectedAt, latitude, longitude, accuracy } = req.body;
-	console.log(req.body)
+	const { deviceMac, deviceIpv4, collectedAt, latitude, longitude, accuracy } = req.body;
 	const location = new Location();
 	location.collectedAt = collectedAt;
 	location.latitude = latitude;
 	location.longitude = longitude;
 	location.accuracy = accuracy;
 
-	// TO DO : add device by ip, find device by ipv4/mac address and add device object to location.device
+	const deviceCallback = (error, device) => {
+		if (error) res.send(error);
+		device.locations.push(location);
+		device.save(error => {
+			if (error) res.send(error);
+		})
+	}
+
+	if (!_.isEmpty(deviceMac)) {
+		Device.findOne({mac: deviceMac}, deviceCallback);
+	} else {
+		if (!_.isEmpty(deviceIpv4)) {
+			Device.findOne({ipv4: deviceIpv4}, deviceCallback);
+		}
+	}
 
 	location.save(error => {
 		if (error) res.send(error);
