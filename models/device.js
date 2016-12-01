@@ -1,12 +1,9 @@
 import mongoose, { Schema } from 'mongoose'
 
-import Location from './location'
-import User from './user'
-
 const deviceSchema = new Schema({
 	mac: String,
 	ipv4: String,
-	locations: [Location],
+	locations: [{ type: Schema.Types.ObjectId, ref: 'Location'}],
 	user: { type: Schema.Types.ObjectId, ref: 'User'}
 }, {
 	timestamps: true

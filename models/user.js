@@ -1,8 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 import bcrypt from 'bcrypt-nodejs'
 
-import Device from './device'
-
 const userSchema = new Schema({
 	username: { type: String, required: true, unique: true },
 	password: { type: String, required: true, unique: true },
@@ -13,9 +11,7 @@ const userSchema = new Schema({
 
 userSchema.pre('save', function(callback) {
 	let user = this;
-
-	if (!user.isModified('password')) return callback;
-
+	if (!user.isModified('password')) return callback(null);
 	bcrypt.genSalt(5, (error, salt) => {
 		if (error) return callback(error);
 
