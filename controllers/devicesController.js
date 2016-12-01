@@ -38,14 +38,13 @@ const post = (req, res) => {
 			user.devices.push(device);
 			user.save(error => {
 				if (error) res.send(error);
-			})
+			});
+			device.save(error => {
+				if (error) res.send(error);
+				res.json({ message: "Device successfully added", device });
+			});
 		});
 	}
-
-	device.save(error => {
-		if (error) res.send(error);
-		res.json({ message: "Device successfully added", device });
-	});
 }
 
 module.exports = { get, getById, getLocations, post };
