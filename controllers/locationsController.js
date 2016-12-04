@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import request from 'request'
 
 import Location from '../models/location'
 import Device from '../models/device'
@@ -12,24 +13,35 @@ const get = (req, res) => {
 }
 
 const post = (req, res) => {
-	const { deviceMac, deviceIpv4, collectedAt, latitude, longitude, accuracy } = req.body;
+	const { deviceMac, deviceIpv4, collectedAt, scanResult } = req.body;
 	const location = new Location();
 	location.collectedAt = collectedAt;
-	location.latitude = latitude;
-	location.longitude = longitude;
-	location.accuracy = accuracy;
 
 	const deviceCallback = (error, device) => {
 		if (error) res.send(error);
-		device.locations.push(location);
-		location.device = device;
-		device.save(error => {  // add cascade update on user
-			if (error) res.send(error);
-			location.save(error => {
-				if (error) res.send(error);
-				res.json({ message: `Location successfully added to device ${device._id}`, location });
-			})
-		})
+
+		request.post( 'https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyB8V9-S8-wbtWjY0OjJY8PApKEeb9fiTI0',
+		  { json: { "wifiAccessPoints": _.map(scanResult, ["macAddress, signalStrength"]) } },
+	    (error, response, body) => {
+	    	if (error) res.send(error);
+        if (!error && response.statusCode == 200) {
+        	device.locations.push(location);
+					location.device = device;
+					console.log(body)
+        	location.latitude = body.location.lat;
+					location.longitude = body.location.lng;
+					location.accuracy = body.accuracy;
+
+					device.save(error => {
+						if (error) res.send(error);
+						location.save(error => {
+							if (error) res.send(error);
+							res.json({ message: `Location successfully added to device ${device._id}`, location });
+						})
+					})
+        }
+	    }
+		);
 	}
 
 	if (!_.isEmpty(deviceMac)) {
@@ -37,6 +49,8 @@ const post = (req, res) => {
 	} else {
 		if (!_.isEmpty(deviceIpv4)) {
 			Device.findOne({ipv4: deviceIpv4}, deviceCallback);
+		} else {
+			res.send("Device not found")
 		}
 	}
 }

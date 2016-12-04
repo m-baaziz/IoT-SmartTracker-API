@@ -17,6 +17,7 @@ mongoose.connect('mongodb://localhost:27017/smarttracker');
 app.use(bodyParser.urlencoded({
 		extended: true
 	}))
+	.use(bodyParser.json())
 	.use(morgan('combined'))
 	.use('/api', router)
 	.use(passport.initialize());
