@@ -16,10 +16,9 @@ const post =  (req, res) => {
 	const user = new User();
 	user.username = username;
 	user.password = password;
-
+	
 	user.save(error => {
 		if (error) res.send(error);
-
 		res.json({ message: "User successfully added", user });
 	});
 }
