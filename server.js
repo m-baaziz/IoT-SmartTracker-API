@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({
 	.use('/api', apiRouter)
 	.use(passport.initialize());
 
-app.set('sockets', []);
+app.set('sockets', {});
 
 
 
@@ -53,12 +53,17 @@ io.use((socket, next) => {
   const { username, password } = data._query;
   console.log(username, password);
   User.findOne({ username }, (error, user) => {
-  	if (password == user.password) {
-  		console.log("match !")
-  		next()
-  	} else {
-  		console.log("passwords dont match !!")
-  	}
+  	user.verifyPassword(password, (error, isMatch) => {
+	    if (error) return console.log(error);
+	    if (isMatch) {
+	    	console.log("match !");
+	    	let sockets = app.get('sockets');
+	    	sockets[user._id] = socket;
+  			next();
+	    } else {
+	    	console.log("passwords dont match !!")
+	    }
+	  });
   });
 });
 
