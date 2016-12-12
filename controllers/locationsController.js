@@ -14,7 +14,6 @@ const get = (req, res) => {
 
 const post = (req, res) => {
 	let { deviceMac, deviceIpv4, collectedAt, scanResult } = req.body;
-	console.log(req.body);
 	const location = new Location();
 	collectedAt = _.toNumber(collectedAt);
 	location.collectedAt = collectedAt;
@@ -22,7 +21,6 @@ const post = (req, res) => {
 		let { mac, signal_level } = i
 		return {  macAddress: mac, signalStrength: _.toNumber(signal_level) };
 	})
-	console.log(wifiAccessPoints);
 	const deviceCallback = (error, device) => {
 		if (error) res.send(error);
 		if (!device) res.send("device not found");
@@ -58,7 +56,6 @@ const post = (req, res) => {
 						})
 					})
         } else {
-        	console.log("response : ", response.statusCode == 200, "body : ", body);
         	res.send(body);
         }
 	    }
