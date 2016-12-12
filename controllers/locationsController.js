@@ -22,7 +22,7 @@ const post = (req, res) => {
 		const { macAddress, signalStrength } = i
 		return {  macAddress, signalStrength: _.toNumber(signalStrength) };
 	})
-
+	console.log(wifiAccessPoints);
 	const deviceCallback = (error, device) => {
 		if (error) res.send(error);
 		if (!device) res.send("device not found");
@@ -58,7 +58,7 @@ const post = (req, res) => {
 						})
 					})
         } else {
-        	console.log("response : ", response, "body : ", body);
+        	console.log("response : ", response.statusCode == 200, "body : ", body);
         	res.send(body);
         }
 	    }
