@@ -56,6 +56,9 @@ const post = (req, res) => {
 							res.json({ message: `Location successfully added to device ${device._id}`, location });
 						})
 					})
+        } else {
+        	console.log(`response : ${response}, body : `, body)
+        	res.send(body);
         }
 	    }
 		);
