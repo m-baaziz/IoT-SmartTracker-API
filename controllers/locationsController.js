@@ -43,13 +43,15 @@ const post = (req, res) => {
 								res.json({ message: `Location successfully added to device ${device._id}`, location });
 								const deviceUserSocket = req.app.get('sockets')[device.user];
 								if (deviceUserSocket) {
-									deviceUserSocket.emit('newLocation', {
-									 mac: device.mac,
-									 latitude: location.latitude,
-									 longitude: location.longitude, 
-									 accuracy: location.accuracy,
-									 collectedAt: location.collectedAt
-									});
+									setTimeout(() => {
+										deviceUserSocket.emit('newLocation', {
+											mac: device.mac,
+											latitude: location.latitude,
+											longitude: location.longitude, 
+											accuracy: location.accuracy,
+											collectedAt: location.collectedAt
+										});
+									}, 1000)
 								}
 							}
 						})
