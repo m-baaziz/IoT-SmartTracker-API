@@ -39,19 +39,19 @@ const post = (req, res) => {
 						if (error) res.send(error);
 						location.save(error => {
 							if (error) res.send(error);
-
-							const deviceUserSocket = req.app.get('sockets')[device.user];
-							if (deviceUserSocket) {
-								deviceUserSocket.emit('newLocation', {
-								 mac: device.mac,
-								 latitude: location.latitude,
-								 longitude: location.longitude, 
-								 accuracy: location.accuracy,
-								 collectedAt: location.collectedAt
-								});
+							else {
+								res.json({ message: `Location successfully added to device ${device._id}`, location });
+								const deviceUserSocket = req.app.get('sockets')[device.user];
+								if (deviceUserSocket) {
+									deviceUserSocket.emit('newLocation', {
+									 mac: device.mac,
+									 latitude: location.latitude,
+									 longitude: location.longitude, 
+									 accuracy: location.accuracy,
+									 collectedAt: location.collectedAt
+									});
+								}
 							}
-
-							res.json({ message: `Location successfully added to device ${device._id}`, location });
 						})
 					})
         } else {
