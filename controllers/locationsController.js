@@ -40,10 +40,11 @@ const post = (req, res) => {
 						location.save(error => {
 							if (error) res.send(error);
 							else {
-								res.json({ message: `Location successfully added to device ${device._id}`, location });
+								console.log(device.user, req.user._id);
 								const deviceUserSocket = req.app.get('sockets')[device.user];
+								// dont send response if the sender is the owner's smartphone and he is listening through the socket, he will need the connection to get location 
+								if (device.user != req.user._id || !deviceUserSocket) res.json({ message: `Location successfully added to device ${device._id}`, location });
 								if (deviceUserSocket) {
-									console.log("emission au user : ", deviceUserSocket);
 									deviceUserSocket.emit('newLocation', {
 									 mac: device.mac,
 									 latitude: location.latitude,
