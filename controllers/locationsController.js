@@ -43,6 +43,7 @@ const post = (req, res) => {
 								res.json({ message: `Location successfully added to device ${device._id}`, location });
 								const deviceUserSocket = req.app.get('sockets')[device.user];
 								if (deviceUserSocket) {
+									console.log("emission au user : ", deviceUserSocket);
 									deviceUserSocket.emit('newLocation', {
 									 mac: device.mac,
 									 latitude: location.latitude,
