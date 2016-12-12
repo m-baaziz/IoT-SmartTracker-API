@@ -19,8 +19,8 @@ const post = (req, res) => {
 	collectedAt = _.toNumber(collectedAt);
 	location.collectedAt = collectedAt;
 	const wifiAccessPoints = _.map(scanResult, i => { 
-		const { macAddress, signalStrength } = i
-		return {  macAddress, signalStrength: _.toNumber(signalStrength) };
+		let { mac, signal_level } = i
+		return {  macAddress: mac, signalStrength: _.toNumber(signal_level) };
 	})
 	console.log(wifiAccessPoints);
 	const deviceCallback = (error, device) => {
