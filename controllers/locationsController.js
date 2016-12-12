@@ -13,13 +13,14 @@ const get = (req, res) => {
 }
 
 const post = (req, res) => {
-	const { deviceMac, deviceIpv4, collectedAt, scanResult } = req.body;
+	let { deviceMac, deviceIpv4, collectedAt, scanResult } = req.body;
 	console.log(req.body);
 	const location = new Location();
+	collectedAt = _.toNumber(collectedAt);
 	location.collectedAt = collectedAt;
 	const wifiAccessPoints = _.map(scanResult, i => { 
 		const { macAddress, signalStrength } = i
-		return {  macAddress, signalStrength };
+		return {  macAddress, signalStrength: _.toNumber(signalStrength) };
 	})
 
 	const deviceCallback = (error, device) => {
@@ -57,7 +58,7 @@ const post = (req, res) => {
 						})
 					})
         } else {
-        	console.log(`response : ${response}, body : `, body)
+        	console.log("response : ", response, "body : ", body);
         	res.send(body);
         }
 	    }
