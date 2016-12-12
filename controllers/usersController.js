@@ -3,10 +3,8 @@ import _ from 'lodash'
 import User from '../models/user'
 
 const get = (req, res) => {
-	console.log('AAAAAA')
 	User.find((error, users) => {
 		if (error) res.send(error);
-
 		res.json({ users });
 	})
 }

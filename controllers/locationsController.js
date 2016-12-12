@@ -14,6 +14,7 @@ const get = (req, res) => {
 
 const post = (req, res) => {
 	const { deviceMac, deviceIpv4, collectedAt, scanResult } = req.body;
+	console.log(req.body);
 	const location = new Location();
 	location.collectedAt = collectedAt;
 	const wifiAccessPoints = _.map(scanResult, i => { 
