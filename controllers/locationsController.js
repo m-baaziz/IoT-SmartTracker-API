@@ -24,6 +24,7 @@ const post = (req, res) => {
 	})
 
 	const deviceCallback = (error, device) => {
+		console.log(error,device);
 		if (error) res.send(error);
 
 		request.post( 'https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyB8V9-S8-wbtWjY0OjJY8PApKEeb9fiTI0',
