@@ -56,7 +56,6 @@ io.use((socket, next) => {
   	user.verifyPassword(password, (error, isMatch) => {
 	    if (error) return console.log(error);
 	    if (isMatch) {
-	    	console.log("match !");
 	    	let sockets = app.get('sockets');
 	    	sockets[user._id] = socket;
   			next();
@@ -69,4 +68,8 @@ io.use((socket, next) => {
 
 io.sockets.on('connection', socket => {
 	console.log("connection");
+})
+
+io.sockets.on('disconnection', socket => {
+	console.log("disconnection");
 })
