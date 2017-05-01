@@ -29,3 +29,5 @@ A Mobile Gateway works as a proxy. When it receives an alert message from its RP
 
 An alert message is composed of the ip address of the stolen object's RPI unit, and a wifi accesspoints scan result (SSIDs and RSSIs).
 When the remote API receives an alert message, it uses the Google Localization API to get an approximated position of the stolen object, and send it the owner's smartphone (real time websocket).
+
+![Project sketch](https://github.com/m-baaziz/IoT-SmartTracker-API/blob/master/iot_system_communication.png)
